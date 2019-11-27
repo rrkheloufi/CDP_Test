@@ -1,0 +1,5 @@
+FROM microsoft/mssql-server-windows-express
+COPY ./cdp_db.sql .
+ENV ACCEPT_EULA Y
+ENV sa_password ''
+RUN sqlcmd -i cdp_db.sql 

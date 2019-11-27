@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script defer src="../backend/gitHubLogin.js"></script>
+  <meta name="author" content="gr1_eq7" />
+  <title><%=project.name + " | GitHub connection"%></title>
+</head>
+
+<body>
+  <%- include ../views/partials/header.ejs %>
+  <div class="row">
+    <% include ./projectSidebar %>
+    <div class="col-9">
+      <form class="px-4 py-3" action="/gitHubLogin?projectId=<%= project.id %>" method="post">
+        <div id="gitHubLogin" class="card form-group">
+          <div class="card-header">SignIn in GitHub</div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <label class="col-form-label" for="usernameGitHub">Username:</label>
+                <input class="form-control" id="usernameGitHub" type="text" name="usernameGitHub" placeholder="Username"
+                  required>
+                <label class="col-form-label" for="passwordGitHub">Password:</label>
+                <input class="form-control" id="passwordGitHub" type="password" name="passwordGitHub"
+                  placeholder="Password" required>
+              </li>
+              <li class="list-group-item">
+                <button type="submit" href="" class="btn btn-outline-success float-right">&#10004;</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

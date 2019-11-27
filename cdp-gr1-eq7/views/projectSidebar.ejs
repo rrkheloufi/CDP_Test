@@ -1,0 +1,19 @@
+<link rel="stylesheet" type="text/css" href="css/simple-sidebar.css" />
+
+<div class="d-flex" id="wrapper">
+
+  <!-- Sidebar -->
+  <div class="bg-light border-right" id="sidebar-wrapper">
+    <div class="sidebar-heading">
+      <h1><%= project.name %></h1>
+    </div>
+    <div class="list-group list-group-flush">
+      <a class="nav-link sidebar-item btn-dark" href="/listIssues?projectId=<%= project.id %>">Issues</a>
+      <a class="nav-link sidebar-item btn-light" href="/listTasks?projectId=<%= project.id %>">Tasks</a>
+      <a class="nav-link sidebar-item btn-dark" href="/listSprints?projectId=<%= project.id %>">Sprints</a>
+      <a class="nav-link sidebar-item btn-light" href="/listReleases?projectId=<%= project.id %>">Releases</a>
+      <a class="nav-link sidebar-item btn-dark" href="/listDoc?projectId=<%= project.id %>">Doc</a>
+      <a class="nav-link sidebar-item btn-light" href="/listTests?projectId=<%= project.id %>">Tests</a>
+    </div>
+  </div>
+</div>

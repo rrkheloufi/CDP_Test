@@ -1,0 +1,138 @@
+<a
+  href="#modalInfos<%= task.taskId%>"
+  data-toggle="modal"
+  data-target="#modalInfos<%= task.taskId%>"
+  class="list-group-item list-group-item-action flex-column align-items-start"
+>
+  <p class="h5 d-flex w-100 justify-content-between">
+    <%= task.name %>
+  </p>
+  <p class="mb-1"><%= task.description %></p>
+  <hr>
+  <% task.issues.forEach(issue => { %>
+    <span class="badge badge-info"><%= issue.id + ": " + issue.name%></span>
+    <% }) %>
+</a>
+<div
+  class="modal"
+  id="modalInfos<%= task.taskId%>"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modalInfos<%= task.taskId %>"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitre"><%= task.name %> </h5>
+        <small>
+          <p class="text-right"> <%= task.state %></p>
+        </small>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><%= task.description %></p>
+        <p>Estimated time : <%= task.realisation_time %></p>
+        <p>Definition of done : <%= task.dod %></p>
+        <% 
+        let year = task.start_date.getFullYear()
+        let month = task.start_date.getMonth()
+        let day = task.start_date.getDate()
+        %>
+        <p>Start date  : <%= day %>/<%=month%>/<%=year%></p>
+        <p>Assigned members : 
+        <% if(task.members){
+          switch (task.members.length) {
+            case 0:
+              %>Aucun<%
+              break;
+            case 1:
+              %><%=task.members[0]%><%
+            default:
+              if(task.members.length > 1){%>
+                <ul><%
+                for(i = 0; i < task.members.length; i++) {
+                  %><li><%=task.members[i]%></li><%
+                  }
+                %></ul><%
+                }
+              break;
+          }
+        }%>
+        </p>
+        <p>Related issues : 
+        <% if(task.issues){
+          switch (task.issues.length) {
+            case 0:
+              %>Aucune<%
+              break;
+            case 1:
+              %>I<%=task.issues[0].id%> - <%=task.issues[0].name%><%
+            default:
+              if(task.issues.length > 1){%>
+                <ul><%
+                for(i = 0; i < task.issues.length; i++) {
+                  %><li>I<%=task.issues[i].id%> - <%=task.issues[i].name%></li><%
+                  }
+                %></ul><%
+                }
+              break;
+          }
+        }%>
+        </p>
+        <p>Required tasks : 
+        <% if(task.dependancies){
+          switch (task.dependancies.length) {
+            case 0:
+              %>Aucune<%
+              break;
+            case 1:
+              %><%=task.dependancies[0]%><%
+            default:
+              if(task.dependancies.length > 1){%>
+                <ul><%
+                for(i = 0; i < task.dependancies.length; i++) {
+                  %><li><%=task.dependancies[i].taskId%> - <%=task.dependancies[i].name%></li><%
+                  }
+                %></ul><%
+                }
+              break;
+          }
+        }%>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <form
+          action="/removeTask?projectId=<%= projectId%>&taskId=<%= task.taskId %>"
+          method="post"
+          onsubmit="return confirm('Voulez-vous vraiment supprimer cette tâche ?');"
+        >
+          <input
+            type="text"
+            name="taskId"
+            class="form-control"
+            id="name"
+            value="<%= task.taskId %>"
+            hidden
+          />
+          <button
+            type="submit"
+            class="btn btn-secondary"
+            formaction="/removetask?projectId=<%= projectId%>&taskId=<%= task.taskId %>"
+          >
+            Remove
+          </button>
+        </form>
+        <a class="btn btn-primary" href="/modifyTask?projectId=<%= projectId %>&taskId=<%= task.taskId %>&action=modify" role="button">Modify</a>
+            
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <script defer src="../backend/listIssues.js"></script>
+  <meta name="author" content="gr1_eq7" />
+  <title><%=project.name + " | tests"%></title>
+</head>
+
+<body>
+  <%- include partials/header.ejs %>
+
+  <div class="row">
+    <% include ./projectSidebar %>
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+      <br>
+      <h1>List of Tests</h1>
+      <hr>
+      <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <h2>To Implement</h2>
+          <div id="accordion" role="tablist" aria-multiselectable="true">
+            <% listTests.forEach(test => { %>
+            <% if (test.state === 'todo') { %>
+            <%- include partials/testList.ejs %>
+            <% } %>
+            <% }) %>
+          </div>
+        </div>
+        <!-------------------------------------------------------------------------------------------------->
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <h2>Done</h2>
+          <div id="accordion" role="tablist" aria-multiselectable="true">
+            <% listTests.forEach(test => { %>
+            <% if (test.state === 'passed' || test.state === 'failed') { %>
+            <%- include partials/testList.ejs %>
+            <% } %>
+            <% }) %>
+          </div>
+        </div>
+
+        <!-------------------------------------------------------------------------------------------------->
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <p>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseAddTest" role="button"
+              aria-expanded="false" aria-controls="collapseAddTest">
+              Add Test
+            </a>
+          </p>
+          <form action="/createTest" method="post">
+
+            <div class="collapse" id="collapseAddTest">
+              <div id="addNewTest" class="card">
+                <h5 class="card-header" id="headingAddTest">
+                  <i class="fa fa-chevron-down pull-right"></i>
+                  <label class="col-form-label" for="testName">Name: </label>
+                  <input class="form-control" id="testName" type="text" name="testName" required><br>
+                </h5>
+
+                <div id="collapseAddTest" class="collapse show" role="tabpanel" aria-labelledby="headingAddTest">
+                  <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                        <label class="col-form-label" for="testDescription">Description of the function to
+                          test:</label><br>
+                        <input class="form-control" id="testDescription" type="text" name="testDescription"
+                          required><br>
+                        <label class="col-form-label" for="testResultExpected">Results expected:</label><br>
+                        <input class="form-control" id="testResultExpected" type="text" name="testResultExpected"
+                          required><br>
+                        <label class="col-form-label" for="testLastVersionValidated">Last version validated:</label>
+                        <br>
+                        <input class="form-control" id="testLastVersionValidated" type="text"
+                          name="testLastVersionValidated" required><br>
+
+                        <label class="col-form-label">Issues:</label><br>
+                        <ul id="listIssuesTest" class="list-inline">
+                          <% listIssuesTest.forEach(issue => { %>
+                          <li class="list-inline-item">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" name="<%=issue.id%>"
+                                id="<%=issue.id%>" value="<%= issue.id%>">
+                              <label class="custom-control-label" for="<%=issue.id%>">
+                                <%= issue.id + ": " + issue.name %></label>
+                            </div>
+                          </li>
+                          <% }); %>
+                        </ul>
+                      </li>
+                      <li class="list-group-item">
+                        <button type="submit" href="" class="btn btn-outline-success float-right">&#10004;</button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

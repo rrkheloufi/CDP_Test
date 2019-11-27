@@ -1,0 +1,60 @@
+<div class="card <% if(test.state === "todo") { %> border-secondary <% }
+  else if (test.state === "passed") { %> border-success <% }
+  else if (test.state === "failed") { %> border-danger <% } %> mb-3">
+  <h5 class="card-header <% if(test.state === "todo") { %> bg-secondary <% }
+    else if (test.state === "passed") { %> bg-success <% }
+    else if (test.state === "failed") { %> bg-danger <% } %>" role="tab" id="heading<%= test.id%>">
+    <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= test.id%>" aria-expanded="true"
+      aria-controls="collapse<%= test.id%>" class="d-block text-white">
+      <i class="fa fa-chevron-down pull-right"></i> <%=test.name %>
+    </a>
+  </h5>
+
+  <div id="collapse<%= test.id%>" class="collapse" role="tabpanel" aria-labelledby="heading<%= test.id%>">
+    <div class="card-body">
+      <ul class="list-group text-black list-group-flush">
+        <li class="list-group-item">
+          <strong> Description:</strong>
+          <p><%= test.description %></p>
+        </li>
+        <li class="list-group-item">
+          <strong> Expected results:</strong>
+          <p><%= test.resultExpected %></p>
+        </li>
+        <li class="list-group-item">
+          <strong> Last version validated:</strong>
+          <p><%= test.lastVersionValidated %></p>
+        </li>
+        <li class="list-group-item">
+          <strong> Issues :</strong>
+          <h5>
+            <% test.listIssues.forEach(issue => { %>
+            <span class="badge badge-info"><%= "I"+ issue.id%></span>
+            <% }) %>
+          </h5>
+          <form action="/removeTest" method="post"
+            onsubmit="return confirm('Voulez-vous vraiment supprimer ce test ?')">
+            <input type="text" name="testIdToRemove" class="form-control" id="testIdToRemove" value="<%= test.id %>"
+              hidden>
+            <button href="" class="btn btn-outline-danger float-right" formaction="/removeTest">&#x274C;</button>
+          </form>
+          <a href="/modifyTest?projectId=<%= project.id %>&testId=<%= test.id %>"
+            class="btn btn-outline-warning float-right">&#9998;</a>
+            <% if(test.state === "failed" || test.state === "todo") { %>
+              <a href="/setTestToPassed?&testId=<%= test.id %>"
+              class="btn btn-outline-success float-right">Passed</a>
+            <% } %>
+            <% if(test.state === "passed" || test.state === "todo") { %>
+              <a href="/setTestToFailed?&testId=<%= test.id %>"
+              class="btn btn-outline-danger float-right">Failed</a>
+            <% } %>
+            <% if(test.state !== "todo") { %>
+              <a href="/setTestToTodo?&testId=<%= test.id %>"
+              class="btn btn-outline-secondary float-right">To Implement</a>
+            <% } %>
+            
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

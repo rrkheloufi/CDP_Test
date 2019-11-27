@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script defer src="../backend/modifyDoc.js"></script>
+  <meta name="author" content="gr1_eq7" />
+  <title><%=project.name + " | modifier doc"%></title>
+</head>
+
+<body>
+  <%- include ../views/partials/header.ejs %>
+  <div class="row">
+    <% include ./projectSidebar %>
+    <div class="col-9">
+      <form class="px-4 py-3" action="/modifyDoc?projectId=<%= project.id %>&releaseId=<%= releaseId %>" method="post">
+        <div class="card form-group">
+          <h5 class="card-header" id="headingModifyIssue">
+            <i class="fa fa-chevron-down pull-right"></i>
+            <div class="form-row form-inline">
+              <h5 class="card-header" id="headingModifyIssue">
+                <i class="fa fa-chevron-down pull-right"></i>
+                Edit link to the doc
+              </h5>
+            </div>
+          </h5>
+          <div class="card-body">
+            <label class="col-form-label" for="docUrl">Url:</label><br>
+            <input class="form-control" id="docUrl" type="url" name="docUrl" value="<%= docUrl %>" required><br>
+            <button type="submit" class="btn btn-primary" formaction="/modifyDoc">Enregistrer les
+              modifications</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

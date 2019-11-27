@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script defer src="../backend/newProject.js"></script>
+  <meta name="author" content="gr1_eq7" />
+  <title>New project</title>
+</head>
+
+<body>
+  <%- include ../views/partials/header.ejs %>
+  <br>
+  <form action="/createProject" method="post" id="create-project">
+    <div class="form-group">
+      <label>Name: <input id="projectName" type="text" name="projectName" required></label> <br>
+      <label>Description: <input id="projectDescription" type="text" name="projectDescription" required></label> <br>
+
+      <label>Add a member to the project: <input id="usernameMemberToAdd" name="memberUsernameToAdd"></label>
+      <button type="submit" class="btn btn-primary" formaction="/addMember">Add</button>
+
+      <ul id="listProjectMembers">List of the membres of the project: <%= listMembers.length %>
+        <% listMembers.forEach(member => { %>
+        <li><%= member %>
+          <form action="/removeMember" method="post" id="remove">
+            <input type="text" name="memberUsernameToRemove" class="form-control" value="<%= member %>" hidden>
+            <button type="submit" class="btn btn-danger" formaction="/removeMember">Remove</button>
+          </form>
+        </li>
+        <% }); %>
+      </ul>
+    </div>
+
+    <button type="submit" class="btn btn-primary" id="createNewProject" form="create-project">Créer Projet</button>
+  </form>
+</body>
+
+</html>

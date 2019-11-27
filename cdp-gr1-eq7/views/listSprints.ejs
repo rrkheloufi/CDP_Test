@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <script defer src="../backend/listSprints.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/project.css" />
+
+  <meta name="author" content="gr1_eq7" />
+</head>
+
+<body>
+  <%- include ../views/partials/header.ejs %>
+
+  <div class="row">
+    <% include ./projectSidebar %>
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+      <br>
+      <h1>List of Sprints</h1>
+      <hr>
+      <% let i = 1 %>
+      <% listSprints.forEach(sprint => { %>
+
+
+      <div id="accordion" role="tablist" aria-multiselectable="true">
+        <ul class="list-unstyled">
+          <li>
+            <div class="card">
+              <h5 class="card-header" role="tab" id="heading<%= sprint.id %>">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= sprint.id %>" aria-expanded="true"
+                  aria-controls="collapse<%= sprint.id %>" class="d-block">
+                  <i class="fa fa-chevron-down pull-right">Sprint <%= i %></i>
+                  <span class="badge badge-primary right"><%= sprint.date_end.toDateString() %><br /></span>
+                  <span class="badge badge-primary right"><%= sprint.date_begin.toDateString() %><br /></span>
+
+                </a>
+              </h5>
+
+              <div id="collapse<%= sprint.id %>" class="collapse" role="tabpanel" aria-labelledby="heading<%= sprint.id %>">
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <strong> Objective :</strong>
+                      <p>
+                        <%= sprint.objective %>
+                      </p>
+                    </li>
+                    <li class="list-group-item">
+
+                      <strong> Issues :</strong>
+                      <% sprint.listIssues.forEach(issue => { %>
+
+                      <p>
+                        <span class="badge badge-primary">I<%= issue.id %><br /></span> <%= issue.name %> 
+                      </p>
+
+                      <% }) %>
+
+                      <form action="/deleteSprint" method="post"
+                        onsubmit="return confirm('Do you really want to remove this sprint ?')">
+                        <input type="text" name="sprintId" class="form-control" id="name" value="<%= sprint.id %>" hidden />
+                        <button type="submit" class="btn btn-outline-danger float-right"
+                          formaction="/deleteSprint">&#x274C;</button>
+                      </form>
+                      <a href="/modifySprint?sprintId=<%= sprint.id %>" class="btn btn-outline-warning float-right">&#9998;</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+        </ul>
+      </div>
+
+      <% i++}) %>
+
+      <p>
+        <a class="btn btn-primary" data-toggle="collapse" href="#collapseAddSprint" role="button" aria-expanded="false"
+          aria-controls="collapseAddSprint">
+          Add Sprint
+        </a>
+      </p>
+      <form action="/addSprint" method="post">
+        <div class="collapse" id="collapseAddSprint">
+          <div id="addNewSprint" class="card form-group">
+            <h5 class="card-header" id="headingAddSprint">
+              <i class="fa fa-chevron-down pull-right"></i>
+              <div class="form-row form-inline">
+                <label class="col-form-label" for="sprintName">
+                  New Sprint
+                </label>
+              </div>
+            </h5>
+
+            <div id="collapseAddSprint" class="collapse show" role="tabpanel" aria-labelledby="headingAddSprint">
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <label class="col-form-label" for="sprintObjective"><strong> Sprint Objective : </strong></label>
+                    <textarea class="form-control" id="sprintObjective" type="text" name="sprintObjective"
+                      placeholder="Objective" required></textarea>
+                  </li>
+
+                  <li class="list-group-item">
+                    <label class="col-form-label"><strong> Issues to finish : </strong></label>
+                    <br>
+                    <select multiple class="form-control" id="sprintIssue" name="sprintIssue">
+                      <% projectIssues.forEach(issue => { %>
+                        <option value="<%= issue.id %>"><%= issue.name %></option>
+                      <% }) %>
+                    </select>
+                  </li>
+
+
+                  <li class="list-group-item">
+                    <div class="form-group row">
+                      <label for="example-date-input" class="col-2 col-form-label">Sprint start on :</label>
+                      <div class="col-4">
+                        <input class="form-control" type="date" id="date_begin" name="date_begin" required>
+                      </div>
+                      <label for="example-date-input" class="col-2 col-form-label">Sprint end on :</label>
+                      <div class="col-4">
+                        <input class="form-control" type="date" id="date_end" name="date_end"required>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li class="list-group-item">
+                    <button type="submit" href="" class="btn btn-outline-success float-right">
+                      &#10004;
+                    </button>
+                  </li>
+
+                </ul>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

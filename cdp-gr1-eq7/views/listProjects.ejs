@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script defer src="../backend/listProjects.js"></script>
+  <meta name="author" content="gr1_eq7" />
+  <title>My projects</title>
+</head>
+
+<body>
+  <%- include ../views/partials/header.ejs %>
+  <div class="row p-3">
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+      <div class="row justify-content-center">
+        <div class="col-md-auto align-self-center">
+          <h1>My projects</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+      <div class="row justify-content-end">
+        <div class="col-md-auto align-self-center">
+          <a type="button" href="/newProject?userName=<%= session.username%>" class="btn btn-success btn-lg">
+            New Project</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+      <ul class="list-unstyled">
+        <% listProjects.forEach(project => { %>
+        <li>
+          <div class="row container justify-content-between">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ml-5 mr-auto p-3 align-self-start">
+              <div class="card bg-light mr-0">
+                <div class="card-header">
+                  <h3><%= project.name %></h3>
+                </div>
+                <div class="card-body">
+                  <p class="card-text">
+                    <%= project.description %>
+                  </p>
+                  <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/overviewProject?projectId=<%= project.id %>"
+                        class="btn btn-primary">Details</a>
+                    </li>
+                    <li class="list-inline-item">
+                      <% if (session.username == project.admin) { %>
+                      <form action="/removeProject" method="post"
+                        onsubmit="return confirm('Voulez-vous vraiment supprimer ce projet ?')">
+                        <input type="text" name="projectId" class="form-control" id="name" value="<%= project.id %>"
+                          hidden>
+                        <button type="submit" class="btn btn-danger" formaction="/removeProject">Delete</button>
+                      </form>
+                      <% } %>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <% }); %>
+      </ul>
+    </div>
+  </div>
+</body>
+
+</html>

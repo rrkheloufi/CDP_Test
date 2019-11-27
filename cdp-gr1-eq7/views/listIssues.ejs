@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <script defer src="../backend/listIssues.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/project.css" />
+  <meta name="author" content="gr1_eq7" />
+  <title><%=project.name + " | issues"%></title>
+</head>
+
+<body>
+  <%- include partials/header.ejs %>
+
+  <div class="row">
+    <% include ./projectSidebar %>
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+      <br>
+      <h1>Liste of issues</h1>
+      <hr>
+
+      <div id="accordion" role="tablist" aria-multiselectable="true">
+        <ul class="list-unstyled">
+          <% listIssues.forEach(issue => { %>
+          <li>
+            <div class="card">
+              <h5 class="card-header" role="tab" id="heading<%=issue.id%>">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%=issue.id%>" aria-expanded="true"
+                  aria-controls="collapse<%=issue.id%>" class="d-block">
+                  <i class="fa fa-chevron-down pull-right"></i>
+                  <span class="badge badge-dark">I<%= issue.id%><br /></span>
+                  <%= issue.name %>
+                  <span
+                    class="badge badge-<% if(issue.priority == 'LOW') { %>info<% } else if(issue.priority == 'MEDIUM') {%>warning <% } else {%>danger<% }%> right"><%= issue.priority%><br /></span>
+                  <span class="badge badge-secondary right"><%= issue.difficulty%><br /></span>
+                </a>
+              </h5>
+
+              <div id="collapse<%=issue.id%>" class="collapse" role="tabpanel" aria-labelledby="heading<%=issue.id%>">
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <strong> Description :</strong>
+                      <p>
+                        <%= issue.description %>
+                      </p>
+                      <form action="/removeIssue?projectId=<% project.id%>" method="post"
+                        onsubmit="return confirm('Voulez-vous vraiment supprimer cette issue ?')">
+                        <input type="text" name="issueId" class="form-control" id="name" value="<%= issue.id %>"
+                          hidden />
+                        <button type="submit" class="btn btn-outline-danger float-right"
+                          formaction="/removeIssue">&#x274C;</button>
+                      </form>
+                      <a href="/modifyIssue?projectId=<%=project.id%>&issueId=<%= issue.id %>"
+                        class="btn btn-outline-warning float-right">&#9998;</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </li>
+          <% }); %>
+          <li>
+        </ul>
+
+        <p>
+          <a class="btn btn-primary" data-toggle="collapse" href="#collapseAddIssue" role="button" aria-expanded="false"
+            aria-controls="collapseAddIssue">
+            Add Issue
+          </a>
+        </p>
+        <form action="/createIssue" method="post">
+
+          <div class="collapse" id="collapseAddIssue">
+            <div id="addNewIssue" class="card form-group">
+              <h5 class="card-header" id="headingAddIssue">
+                <i class="fa fa-chevron-down pull-right"></i>
+                <div class="form-row form-inline">
+                  <label class="col-form-label" for="issueName">Name :</label>
+                  <input class="form-control" id="issueName" type="text" name="issueName" placeholder="Name" required>
+                  <label class="col-form-label" for="issuePriority">Priority :</label>
+                  <select class="form-control" id="issuePriority" list="priorities" type="text" name="issuePriority"
+                    placeholder="Priority" required>
+                    <option>LOW</option>
+                    <option>MEDIUM</option>
+                    <option>HIGH</option>
+                  </select>
+                  <label class="col-form-label" for="issueDifficulty">Difficulty :</label>
+                  <input class="form-control" id="issueDifficulty" type="number" min="0" name="issueDifficulty"
+                    placeholder="Difficulty" required />
+                </div>
+              </h5>
+
+              <div id="collapseAddIssue" class="collapse show" role="tabpanel" aria-labelledby="headingAddIssue">
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <label class="col-form-label" for="issueDescription">Description :</label>
+                      <input class="form-control" id="issueDescription" type="text" name="issueDescription"
+                        value="As... I want to... In order to..." placeholder="description" required>
+                    </li>
+                    <li class="list-group-item">
+                      <button type="submit" href="" class="btn btn-outline-success float-right">&#10004;</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script defer src="../backend/modifyIssue.js"></script>
+  <meta name="author" content="gr1_eq7" />
+  <title><%=project.name + " | modifier issue"%></title>
+</head>
+
+<body>
+  <%- include ../views/partials/header.ejs %>
+  <div class="row">
+    <% include ./projectSidebar %>
+    <div class="col-9">
+      <form class="px-4 py-3" action="/modifyIssue?projectId=<%= project.id %>&issueId=<%= issue.id %>" method="post">
+        <div id="modifyIssue" class="card form-group">
+          <h5 class="card-header" id="headingModifyIssue">
+            <i class="fa fa-chevron-down pull-right"></i>
+            <div class="form-row form-inline">
+              <label class="col-form-label" for="issueName">Name :</label>
+              <input class="form-control" id="issueName" type="text" name="issueName" placeholder="Name"
+                value="<%= issue.name %>" required>
+              <label class=" col-form-label" for="issuePriority">Priority :</label>
+              <select class="form-control" id="issuePriority" list="priorities" type="text" name="issuePriority"
+                placeholder="Priority" value="<%= issue.priority %>"" required>
+                  <option>LOW</option>
+                  <option>MEDIUM</option>
+                  <option>HIGH</option>
+                </select>
+              <label class=" col-form-label" for="issueDifficulty">Difficulty :</label>
+                <input class="form-control" id="issueDifficulty" type="number" min="0" name="issueDifficulty"
+                  placeholder="Difficulty" value="<%= issue.difficulty %>" required />
+            </div>
+          </h5>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <label class="col-form-label" for="issueDescription">Description :</label>
+                <input class="form-control" id="issueDescription" type="text" name="issueDescription"
+                  value="<%= issue.description %>" placeholder="description" required>
+              </li>
+              <li class="list-group-item">
+                <button type="submit" href="" class="btn btn-outline-success float-right">&#10004;</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

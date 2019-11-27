@@ -1,0 +1,16 @@
+.right {
+  float: right;
+  margin-left: 10px;
+}
+
+#issuePriority {
+  width: 100px;
+}
+
+#issueDifficulty {
+  width: 40px;
+}
+
+#collapseAddIssue {
+  margin-bottom: 20px;
+}

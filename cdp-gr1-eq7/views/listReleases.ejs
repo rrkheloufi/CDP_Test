@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <script defer src="../backend/listReleases.js"></script>
+  <meta name="author" content="gr1_eq7" />
+  <title><%=project.name + " | releases"%></title>
+</head>
+
+<body>
+  <%- include partials/header.ejs %>
+
+  <div class="row">
+    <% include ./projectSidebar %>
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+      <br>
+      <div class="alert alert-primary" role="alert">
+        <%if (session.usernameGitHub === undefined || session.passwordGitHub === undefined) { %>You need to enter your
+        GitHub username and password in order to see the releases of a private repository or manage the
+        releases<% } else { %>You are using <a
+          href="https://github.com/<%=session.userGitHub + '/' + session.repositoryGitHub%>" class="alert-link"
+          target="_blank"><%=session.userGitHub + '/' + session.repositoryGitHub%></a><% } %>
+      </div>
+      <h1>List of Releases</h1>
+      <hr>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <h2>Releases</h2>
+          <div id="accordion" role="tablist" aria-multiselectable="true">
+            <% listReleases.forEach(release => { %>
+            <% if (release.prerelease === Boolean(false)) { %>
+            <%- include partials/releaseList.ejs %>
+            <% } %>
+            <% }) %>
+          </div>
+        </div>
+        <!-------------------------------------------------------------------------------------------------->
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <a type="button" class="btn btn-primary"
+            href="<%='https://github.com/' + session.userGitHub + '/' + session.repositoryGitHub + "/releases/new"%>"
+            target="_blank">Add release</a>
+        </div>
+
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <a class="btn btn-primary" href="/gitHubLogin?projectId=<%= project.id %>">SignIn in GitHub</a>
+        </div>
+
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <p>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseSetGitHub" role="button"
+              aria-expanded="false" aria-controls="collapseSetGitHub">
+              Set GitHub
+            </a>
+          </p>
+          <form action="/setGitHub" method="post">
+            <div class="collapse" id="collapseSetGitHub">
+              <div id="setGitHub" class="card form-group">
+                <h5 class="card-header" id="headingSetGitHub">
+                  <i class="fa fa-chevron-down pull-right"></i>
+                  Set GitHub link for releases
+                </h5>
+
+                <div id="collapseSetGitHub" class="collapse show" role="tabpanel" aria-labelledby="headingSetGitHub">
+                  <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                        <label class="col-form-label" for="userGitHub">User:</label>
+                        <input class="form-control" id="userGitHub" type="text" name="userGitHub" placeholder="User"
+                          required>
+                        <label class="col-form-label" for="repositoryGitHub">Repository name:</label>
+                        <input class="form-control" id="repositoryGitHub" type="text" name="repositoryGitHub"
+                          placeholder="Repository name" required>
+                      </li>
+                      <li class="list-group-item">
+                        <button type="submit" href="" class="btn btn-outline-success float-right">&#10004;</button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

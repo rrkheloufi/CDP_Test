@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script defer src="../backend/modifyTest.js"></script>
+  <meta name="author" content="gr1_eq7" />
+  <title><%=project.name + " | modifier test"%></title>
+</head>
+
+<body>
+  <%- include ../views/partials/header.ejs %>
+  <div class="row">
+    <% include ./projectSidebar %>
+    <div class="col-9">
+      <form class="px-4 py-3" action="/modifyTest?projectId=<%= project.id %>&testId=<%= test.id %>" method="post">
+        <div class="card form-group">
+          <h5 class="card-header" id="headingModifyIssue">
+            <i class="fa fa-chevron-down pull-right"></i>
+            <div class="form-row form-inline">
+              <label class="col-form-label" for="testName">Name:</label><br>
+              <input class="form-control" id="testName" type="text" name="testName" value="<%= test.name %>"
+                required><br>
+            </div>
+          </h5>
+          <div class="card-body">
+            <label class="col-form-label" for="testDescription">Description of the function to
+              test:</label><br>
+            <input class="form-control" id="testDescription" type="text" name="testDescription"
+              value="<%= test.description %>" required><br>
+            <label class="col-form-label" for="testResult">Results expected:</label><br>
+            <input class="form-control" id="testResult" type="text" name="testResultExpected"
+              value="<%= test.resultExpected %>" required><br>
+            <label class="col-form-label" for="testValidVersion">Last version validated:</label><br>
+            <input class="form-control" id="testValidVersion" type="text" name="testLastVersionValidated"
+              value="<%= test.lastVersionValidated %>" required><br>
+
+            <label class="col-form-label">State:</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="testState" id="todoState" value="todo"
+                <% if (test.state === 'todo') {%> checked <% } %> />
+              <label class="form-check-label" for="todoState">To do</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="testState" id="passedState" value="passed"
+                <% if (test.state === 'passed') {%> checked <% } %> />
+              <label class="form-check-label" for="passedState">Passed</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="testState" id="failedState" value="failed"
+                <% if (test.state === 'failed') {%> checked <% } %> />
+              <label class="form-check-label" for="failedState">Failed</label>
+            </div><br>
+
+            <label class="col-form-label">Issues:</label><br>
+            <ul id="listIssuesTest" class="list-inline">
+              <% listIssues.forEach(issue => { %>
+              <li class="list-inline-item">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" name="<%=issue.id%>" id="<%=issue.id%>"
+                    value="<%= issue.id%>" <% if (listIssuesIdsTest.indexOf(issue.id) > -1 ) {%> checked <% } %> />
+                  <label class="custom-control-label" for="<%=issue.id%>">
+                    <%= issue.id + ": " + issue.name %></label>
+                </div>
+              </li>
+              <% }); %>
+            </ul>
+            <button type="submit" class="btn btn-primary" formaction="/modifyTest">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script defer src="../backend/listTasks.js"></script>
+  <meta name="author" content="gr1_eq7" />
+
+  <title>Task list</title>
+</head>
+<!-- Template pour les tasks :
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    Titre de la tâche
+                </div>
+                <p class="mb-1">Courte descrption de la tache.</p>
+                <small>Ajouter eventuellement plus d'infos</small>
+            <div>
+-->
+
+<body>
+  <%- include partials/header.ejs %>
+
+  <div class="row">
+    <% include ./projectSidebar %>
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+      <br>
+      <h1>Task list</h1>
+      <hr>
+      <div class="col-9">
+        <div class="row">
+          <div class="list-group d-inline-flex w-25 m-2" id="tasks_todo">
+            <p>Task To Do</p>
+
+            <% taskToDo.forEach(task => { %> <%- include partials/taskList.ejs
+            %> <% }); %>
+          </div>
+
+          <div class="list-group d-inline-flex w-25 m-2" id="tasks_doing">
+            <p>Task Doing</p>
+            <% taskDoing.forEach(task => { %> <%- include partials/taskList.ejs
+            %> <% }); %>
+          </div>
+
+          <div class="list-group d-inline-flex w-25 m-2" id="tasks_done">
+            <p>Task done</p>
+            <% taskDone.forEach(task => { %> <%- include partials/taskList.ejs
+            %> <% }); %>
+          </div>
+        </div>
+      </div>
+      <a class="btn btn-primary" href="./newTask?projectId=<%=projectId %>&action=create" role="button">Add new task</a>
+    </div>
+</body>
+
+</html>
