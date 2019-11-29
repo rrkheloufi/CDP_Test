@@ -30,7 +30,7 @@ setTimeout(function() {
       console.log('Connected!')
     }
   })
-}, 6000)
+}, 15000)
 
 // TODO : checker les paramètres vides
 
