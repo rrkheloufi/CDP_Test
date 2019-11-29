@@ -16,10 +16,9 @@ var con
 setTimeout(function() {
   con = mysql.createConnection({
     host: 'db',
-    user: 'user',
-    password: 'user',
-    port: '3306',
-    database: 'cdp_database',
+    user: 'root',
+    password: 'root',
+    database: 'cdp_db',
     multipleStatements: true
   })
 
@@ -308,7 +307,7 @@ function _getTaskIdsAssignedToMember(username) {
 
 function _areUsernameAndPasswordCorrect(username, password) {
   return new Promise(function(resolve, reject) {
-    const sql = 'SELECT * FROM cdp_database.member WHERE username = '.concat(
+    const sql = 'SELECT * FROM cdp_db.member WHERE username = '.concat(
       con.escape(username)
     )
     con.query(sql, function(err, result) {
