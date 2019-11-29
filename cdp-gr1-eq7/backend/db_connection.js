@@ -18,11 +18,6 @@ var con = mysql.createConnection({
   multipleStatements: true
 })
 
-con.connect(function(err) {
-  if (err) throw err
-  console.log('Connected to local database!')
-})
-
 // TODO : checker les paramètres vides
 
 // ================ Projects ================
