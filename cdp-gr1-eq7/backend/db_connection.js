@@ -11,7 +11,7 @@ const Doc = require('./classes/Doc')
 
 // https://stackoverflow.com/questions/30545749/how-to-provide-a-mysql-database-connection-in-single-file-in-nodejs
 var con = mysql.createConnection({
-  host: 'localhost',
+  host: 'db',
   user: 'root',
   password: '',
   database: 'cdp_database',
