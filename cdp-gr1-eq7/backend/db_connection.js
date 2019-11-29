@@ -19,6 +19,13 @@ var con = mysql.createConnection({
   multipleStatements: true
 })
 
+con.connect(function(err) {
+  if (err) {
+    console.log(err)
+  }
+  console.log('Connected!')
+})
+
 // TODO : checker les paramètres vides
 
 // ================ Projects ================
