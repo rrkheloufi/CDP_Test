@@ -18,6 +18,22 @@ var con = mysql.createConnection({
   multipleStatements: true
 })
 
+con.connect(function(error) {
+  while (error) {
+    con = mysql.createConnection({
+      host: 'db',
+      user: 'root',
+      password: 'root',
+      database: 'cdp_database',
+      multipleStatements: true
+    })
+    con.connect(function(err) {
+      error = err
+    })
+  }
+  console.log('Connected to local database!')
+})
+
 // TODO : checker les paramètres vides
 
 // ================ Projects ================
