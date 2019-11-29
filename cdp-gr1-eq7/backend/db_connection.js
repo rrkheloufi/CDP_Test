@@ -9,20 +9,15 @@ const Test = require('./classes/Test')
 const Sprint = require('./classes/Sprint')
 const Doc = require('./classes/Doc')
 
-var con
-
-setTimeout(function() {
-  con = mysql.createConnection({
-    host: 'db',
-    user: 'root',
-    password: 'root',
-    port: '3306',
-    database: 'cdp_database',
-    multipleStatements: true
-  })
-}, 5000)
-
 // https://stackoverflow.com/questions/30545749/how-to-provide-a-mysql-database-connection-in-single-file-in-nodejs
+var con = mysql.createConnection({
+  host: 'db',
+  user: 'root',
+  password: 'root',
+  port: '3306',
+  database: 'cdp_database',
+  multipleStatements: true
+})
 
 // TODO : checker les paramètres vides
 
