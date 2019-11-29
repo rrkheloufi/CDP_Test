@@ -13,7 +13,7 @@ const Doc = require('./classes/Doc')
 var con = mysql.createConnection({
   host: 'db',
   user: 'root',
-  password: '',
+  password: 'root',
   database: 'cdp_database',
   multipleStatements: true
 })
